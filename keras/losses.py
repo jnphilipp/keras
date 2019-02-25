@@ -45,6 +45,12 @@ def categorical_hinge(y_true, y_pred):
     return K.maximum(0., neg - pos + 1.)
 
 
+def margin_loss(y_true, y_pred):
+    lamb, margin = 0.5, 0.1
+    return K.sum(y_true * K.square(K.relu(1 - margin - y_pred)) + lamb * (
+        1 - y_true) * K.square(K.relu(y_pred - margin)), axis=-1)
+
+
 def logcosh(y_true, y_pred):
     """Logarithm of the hyperbolic cosine of the prediction error.
 
