@@ -10,6 +10,11 @@ from . import backend as K
 from .utils.generic_utils import deserialize_keras_object
 from .engine import Layer
 
+try:
+    from keras_contrib.activations import *
+except ImportError:
+    pass
+
 
 def softmax(x, axis=-1):
     """Softmax activation function.
