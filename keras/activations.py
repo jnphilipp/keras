@@ -10,11 +10,6 @@ from . import backend as K
 from .utils.generic_utils import deserialize_keras_object
 from .engine import Layer
 
-try:
-    from keras_contrib.activations import *
-except ImportError:
-    pass
-
 
 def softmax(x, axis=-1):
     """Softmax activation function.
@@ -173,6 +168,15 @@ def linear(x):
     """Linear (i.e. identity) activation function.
     """
     return x
+
+
+def squash(x, axis=-1):
+    """
+    Squash activation function (generally used in Capsule layers).
+    """
+    s_squared_norm = K.sum(K.square(x), axis, keepdims=True) + K.epsilon()
+    scale = K.sqrt(s_squared_norm) / (0.5 + s_squared_norm)
+    return scale * x
 
 
 def serialize(activation):
